@@ -16,7 +16,7 @@ import chalk from 'chalk';
 
 let standardProcessorFixture: NodeProcessorFunction;
 
-describe('treeifier utils', () => {
+describe( 'treeifier utils', () => {
 
   beforeAll( function () {
 
@@ -101,7 +101,52 @@ describe('treeifier utils', () => {
     // console.log( TreeifierUtils.debug( item ) );
 
     expect( person.age ).toBe( 30 );
+
+
+    const inputObject = {
+      "a": "Chuck Norris was here",
+      "b": {
+        "c": 123,
+        "d": NaN
+      },
+      "e": [1, 2, 3],
+      "f": {
+        "g": new Date( 2020, 0, 1 ),
+        "h": "a string",
+        "i": null,
+        "j": undefined,
+        "k": (): boolean => { return true },
+        "l": [
+          {
+            "first": "Elvis has just left the building",
+            "second": ["a", "b", "c"],
+            "third": true,
+            "fourth": Symbol( "atari" )
+          },
+          {
+            "Min": -123,
+            "max": Infinity,
+            mixed: ["a", 1, null, { objectID: 123 }],
+            emptyobject: {}
+          },
+          {
+            101: 'foo',
+            姓名: 'bar',
+            'foo': `\u59d3\u540d`,
+            'bar': `姓名`,
+            anotherone: {
+              \u59d3\u540d: 'Alf'
+            }
+          }
+        ]
+      }
+    };
+    // ======== test processing and debugging the object "inputObject" ========
+    // console.log(new Treeifier().process(inputObject, 'object', TreeifierUtils.defaultColoredValuesProcessor));
+
+    expect( inputObject.b.c ).toBe( 123 );
+
   } );
 
 
-});
+} );
