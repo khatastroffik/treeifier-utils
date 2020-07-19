@@ -23,6 +23,26 @@ Usage of the `defaultColoredValuesProcessor` &amp; `defaultColoredTypesProcessor
 | ![ASCII tree representation](./doc/screenshot-colored-ascii-tree.png) | ![ASCII tree representation](./doc/screenshot-colored-types-ascii-tree.png) |
 |`myTreeifier.process( aPerson, 'person', TreeifierUtils.defaultColoredValuesProcessor )`| `myTreeifier.process( aPerson, 'person', TreeifierUtils.defaultColoredTypesProcessor )`|
 
+## installation
+
+To make **use of the TreeifierUtils class** (provided in the library) in your application, please install it as a standard dependency i.e. using the `--save` (`-S`) flag.
+
+```shell
+> npm install --save @khatastroffik/treeifier-utils
+```
+
+To use the library during development only e.g. the CLI for debugging purpose, preffer the `--save-dev` (`-D`) flag:
+
+```shell
+> npm install --save-dev @khatastroffik/treeifier-utils
+```
+
+To **use the CLI everywhere**, you may preffer to install the library as a global package (`--global` aka `-g` flag) instead:
+
+```shell
+> npm install --global @khatastroffik/treeifier-utils
+```
+
 ## usage
 
 The library functionality is accessible through usage of the class `TreeifierUtils`. All functions, methods and properties are *intentionally declared as* **static**, hence there's no need to create any instance of the class.
