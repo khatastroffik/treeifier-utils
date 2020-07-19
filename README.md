@@ -31,7 +31,7 @@ To make **use of the TreeifierUtils class** (provided in the library) in your ap
 > npm install --save @khatastroffik/treeifier-utils
 ```
 
-To use the library during development only e.g. the CLI for debugging purpose, preffer the `--save-dev` (`-D`) flag:
+To use the library during development only e.g. use the CLI locally or use the class for debugging purpose, preffer the `--save-dev` (`-D`) flag:
 
 ```shell
 > npm install --save-dev @khatastroffik/treeifier-utils
