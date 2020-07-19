@@ -54,7 +54,7 @@
   },
   "files": [
     "/dist",
-    "/types"
+    "/doc"
   ],
   "directories": {
     "doc": "doc"
