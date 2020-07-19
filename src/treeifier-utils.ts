@@ -8,32 +8,59 @@
  *
 **/
 
-// TODO: TBD :: add a "compare treenodes" function. 
-
 import { TreeifierNode } from '@khatastroffik/treeifier/dist/treeifier-node';
 import { TreeifierNodeTypes } from '@khatastroffik/treeifier/dist/treeifier-node-parser';
 import chalk from "chalk";
 import { Treeifier, NodeProcessorFunction } from '@khatastroffik/treeifier';
 
+/**
+ * This class implements static functions and members that extend the functionality of the treeifier core library.
+ * Note: The class doesn't need to be instanciated.
+ *
+ * @export
+ * @class TreeifierUtils
+ */
 export class TreeifierUtils {
 
   private static readonly defaultStructureColor = chalk.blue;
   private static readonly defaultKeyColor = chalk.white;
   private static readonly defaultValueColor = chalk.greenBright;
   private static readonly defaultCircularColor = chalk.redBright;
-
+  /**
+   * Definitions of the colors used by the default processor functions to output an object representation
+   * - StructureColor: color of the "tree structure"
+   * - KeyColor: color of the "keys" i.e. the names of the properties within the input object
+   * - ValueColor: color of the "values" i.e. the values stored in the properties within the input object
+   * - CircularColor: color of the "circular references" (if any) identified within the input object
+   * 
+   * @static
+   * @memberof TreeifierUtils
+   */
   static StructureColor = TreeifierUtils.defaultStructureColor;
   static KeyColor = TreeifierUtils.defaultKeyColor;
   static ValueColor = TreeifierUtils.defaultValueColor;
   static CircularColor = TreeifierUtils.defaultCircularColor;
-
+  /**
+   * Reset all (static) predefined colors to their default values
+   *
+   * @static
+   * @memberof TreeifierUtils
+   */
   static resetAllColors(): void {
     TreeifierUtils.StructureColor = TreeifierUtils.defaultStructureColor;
     TreeifierUtils.KeyColor = TreeifierUtils.defaultKeyColor;
     TreeifierUtils.ValueColor = TreeifierUtils.defaultValueColor;
     TreeifierUtils.CircularColor = TreeifierUtils.defaultCircularColor;
   }
-
+  /**
+   * Processor function generating a tree structure of an input object.
+   * The output is showing the types of the object properties.
+   *
+   * @static
+   * @param {TreeifierNode} node
+   * @returns {string}
+   * @memberof TreeifierUtils
+   */
   static defaultColoredTypesProcessor( node: TreeifierNode ): string {
     let result = TreeifierUtils.StructureColor( node.prefix + node.joint ) +
       TreeifierUtils.KeyColor( node.key ) +
@@ -46,7 +73,16 @@ export class TreeifierUtils {
     }
     return result;
   }
-
+  /**
+   * Processor function generating a tree structure of an input object.
+   * The output is showing the values stored in the object properties.
+   * Colored output.
+   *
+   * @static
+   * @param {TreeifierNode} node
+   * @returns {string}
+   * @memberof TreeifierUtils
+   */
   static defaultColoredValuesProcessor( node: TreeifierNode ): string {
     const circular = node.isCircular ? ' -> ' + node.circularRefNode?.key ?? '?' : '';
     const nodeValue = node.isLeaf ? node.toString() : ''
@@ -62,7 +98,17 @@ export class TreeifierUtils {
     }
     return result;
   }
-
+  /**
+   * Processor function generating a tree structure of an input object.
+   * The output is an HTML script containing a structure of list(s) 
+   * and list item(s) representing the object properties.
+   * The HTML tags declare some class attributes allowing to adapt the rendering using CSS definitions.
+   *
+   * @static
+   * @param {TreeifierNode} node
+   * @returns {string}
+   * @memberof TreeifierUtils
+   */
   static defaultHTMLProcessor( node: TreeifierNode ): string {
     let result = '';
     const circularKey = node.circularRefNode?.key ?? '?';
@@ -86,10 +132,28 @@ export class TreeifierUtils {
     return result;
   }
 
+  /**
+   * Helper function to get the string representation of a 
+   * "node type" as defined in the corresponding enum.
+   *
+   * @static
+   * @param {TreeifierNodeTypes} nodetype
+   * @returns {string}
+   * @memberof TreeifierUtils
+   */
   static nodeTypeToString( nodetype: TreeifierNodeTypes ): string {
     return TreeifierNodeTypes[nodetype];
   }
-
+  /**
+   * Helper function returning the representation of a TreeifierNode as parsed by treeifier.
+   * it is used by the "debugging" functions.
+   *
+   * @private
+   * @static
+   * @param {TreeifierNode} node
+   * @returns {string}
+   * @memberof TreeifierUtils
+   */
   private static debugProcessor( node: TreeifierNode ): string {
     const circular = ( node.isCircular && node.circularRefNode ) ? node.circularRefNode.value.path ?? node.circularRefNode.key : '';
     let nodeValueString = node.toString();
@@ -111,12 +175,30 @@ export class TreeifierUtils {
     }
     return result;
   }
-
+  /**
+   * A debugging function returning the tree representation of an already generated structure (!) of TreeifierNodes.
+   * Note: The label of the resulting root node is prefixed with "debug@".
+   *
+   * @static
+   * @param {TreeifierNode} rootnode the root TreeifierNode of the existing node structure
+   * @param {Treeifier} [treeifier] (OPTIONAL) a reference to an instance of a Treeifier class
+   * @returns {string} the tree representation of the node structure
+   * @memberof TreeifierUtils
+   */
   static debugResultNode( rootnode: TreeifierNode, treeifier?: Treeifier ): string {
     const debugTreeifier = treeifier ?? new Treeifier();
     return debugTreeifier.process( rootnode, 'debug@' + rootnode.key, TreeifierUtils.debugProcessor );
   }
-
+  /**
+   * A debugging function generating the "TreeifierNode structure" representation of an input object. 
+   *
+   * @static
+   * @param {*} item an input object
+   * @param {string} [label] (OPTIONAL) the label of the input object used in the representation of its node structure
+   * @param {NodeProcessorFunction} [nodeProcessorCallback] (OPTIONAL) the processor function used to generate the representation of the object branches and leaves
+   * @returns {string} the tree representation of the node structure
+   * @memberof TreeifierUtils
+   */
   static debug( item: any, label?: string, nodeProcessorCallback?: NodeProcessorFunction ): string {
     const treeifier = new Treeifier();
     return TreeifierUtils.debugResultNode( treeifier.parse( item, label, nodeProcessorCallback ), treeifier );
