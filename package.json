@@ -54,7 +54,7 @@
   },
   "files": [
     "/dist",
-    "/types"
+    "/doc"
   ],
   "directories": {
     "doc": "doc"
@@ -78,7 +78,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "@khatastroffik/treeifier": "file:../treeifier",
+    "@khatastroffik/treeifier": "^1.0.0",
     "chalk": "^4.1.0",
     "tslib": "^2.0.0"
   }
